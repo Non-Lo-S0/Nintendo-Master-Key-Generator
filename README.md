@@ -73,12 +73,6 @@ pip install pycryptodome
 python nintendo_mkey_generator.py
 ```
 
-## Key Files Configuration
-
-Some calculation methods require cryptographic keys extracted from the console's firmware.
-
-The application automatically creates a `data` directory next to the Python script and generates a `README.txt` file describing the required key files.
-
 ### Nintendo 3DS / 2DS
 
 **v1 (10-digit Inquiry Number):**
@@ -131,7 +125,7 @@ data/
 - Switch v3 does not require a Device ID.
 - Switch v4 requires the console's internal 16-character hexadecimal Device ID.
 
-**Important:** `RR` and `VV` represent two-digit hexadecimal identifiers. The required cryptographic keys are not included in this repository. Extract them exclusively from your own console's firmware. Do not use randomly downloaded or unverified key files.
+`RR` and `VV` represent two-digit hexadecimal identifiers. 
 
 ## How to Use
 
@@ -159,10 +153,6 @@ The application implements different algorithms depending on the console and fir
 | Switch v4 | Iterated HMAC-SHA256 |
 
 ## Troubleshooting
-
-**Missing key file**
-
-Make sure the required files are present in the `data` directory and have the correct filenames.
 
 **Invalid key file size**
 
