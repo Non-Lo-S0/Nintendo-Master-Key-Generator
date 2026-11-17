@@ -62,37 +62,6 @@ def _calc_wiiu_v0(month: int, day: int, inquiry: str) -> str:
     return f"{code:05d}"
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
-DATA_DIR.mkdir(exist_ok=True)
-_DATA_README = DATA_DIR / "README.txt"
-if (
-    not _DATA_README.exists()
-    or "wup_RR.bin" not in _DATA_README.read_text(encoding="utf-8", errors="ignore")
-    or "hac_0a.bin" not in _DATA_README.read_text(encoding="utf-8", errors="ignore")
-    or "Switch v4" not in _DATA_README.read_text(encoding="utf-8", errors="ignore")
-    or "Does NOT require the Device ID" not in _DATA_README.read_text(encoding="utf-8", errors="ignore")
-    or "10-13 Inquiry prefix" not in _DATA_README.read_text(encoding="utf-8", errors="ignore")
-):
-    _DATA_README.write_text(
-        "KEY FILE - mkey generator\n\n"
-        "3DS v1 (10-digit Inquiry, automatic recognition):\n"
-        "  ctr_RR.bin - regional HMAC key, 32 bytes\n\n"
-        "3DS v2 (10-digit Inquiry, version field >= 10):\n"
-        "  ctr_RR_VV.bin - regional/version masterkey.bin, 64 bytes\n"
-        "  ctr_aes_RR.bin - regional AES key, 16 bytes\n\n"
-        "Wii U v2 (10-digit Inquiry):\n"
-        "  wup_RR.bin - regional masterkey.bin, 64 bytes\n"
-        "  wup_aes_RR.bin - regional AES key, 16 bytes\n"
-        "  The two digits after the region are console fillers, not a key version.\n\n"
-        "Switch v3 (firmware 1.0.0-7.0.1, 10-digit Inquiry):\n"
-        "  hac_0a.bin / hac_0b.bin / hac_0c.bin / hac_0d.bin - HMAC key, 32 bytes; selected by 10-13 Inquiry prefix.\n"
-        "  Does NOT require the Device ID.\n\n"
-        "Switch v4 (firmware 8.0.0-15.0.0, 6-digit Inquiry):\n"
-        "  hac_0a.bin / hac_0b.bin / hac_0c.bin / hac_0d.bin - HMAC key, 32 bytes; 10-13 Inquiry prefix and 16-digit internal hexadecimal Device ID, not the serial number.\n\n"
-        "RR and VV are two-digit hexadecimal identifiers. Keys are not included: "
-        "extract them exclusively from your console's firmware and do not download random files.\n",
-        encoding="utf-8"
-    )
-
 
 def _read_key_file(filename: str, expected_size: int) -> bytes:
     """Reads a key from the data folder next to the script."""
@@ -705,7 +674,6 @@ class MKeyApp(tk.Tk):
             messagebox.showwarning("Warning", str(err))
 
     def _open_data_folder(self):
-        DATA_DIR.mkdir(exist_ok=True)
         try:
             if sys.platform.startswith("win"):
                 os.startfile(str(DATA_DIR))
